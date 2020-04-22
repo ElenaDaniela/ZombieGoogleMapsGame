@@ -1,5 +1,6 @@
 
 
+
 <script async defer
    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUdd4sW84EBW9sM_JMBw8JIRhzGm87b9I&callback=initMap">
 </script>
@@ -65,10 +66,13 @@
             
             center: {lat: 45.177241599999995, lng:  24.2614272}
 			});
+			
+			var oldPosLoc = new google.maps.LatLng(zombie_map.center.lat, zombie_map.center.lng);
 			old_position = new google.maps.Marker({
-			position: center,
+			position: oldPosLoc,
 			map: zombie_map
 			});
+			
 			if(navigator.geolocation) {
 				navigator.geolocation.watchPosition(set_my_position);
 			}
