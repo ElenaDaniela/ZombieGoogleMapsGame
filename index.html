@@ -1,4 +1,5 @@
 
+
 <script async defer
    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUdd4sW84EBW9sM_JMBw8JIRhzGm87b9I&callback=initMap">
 </script>
@@ -33,6 +34,7 @@
 	
 	<script>
     var zombie_map;
+	var old_position;
 	var data = `45.23670654662454 24.339402827861765 battle.png
 	45.235638663335536 24.340009419645927 hospital.png
 	 45.236720784693034 24.342860402210196 zombie.png
@@ -62,6 +64,10 @@
             zoom: 16,
             
             center: {lat: 45.177241599999995, lng:  24.2614272}
+			});
+			old_position = new google.maps.Marker({
+			position: center,
+			map: zombie_map
 			});
 			if(navigator.geolocation) {
 				navigator.geolocation.watchPosition(set_my_position);
@@ -99,6 +105,7 @@
 			}
     }
 	function set_my_position(position){
+		old_position.setMap(null);
 		var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 		var player = new google.maps.Marker({
 				position: pos,
@@ -106,6 +113,7 @@
 				icon: plr
 				});
 				console.log(position.coords.latitude + " " + position.coords.longitude)
+		old_position = player;
 	}
 	/*function place_marker(location){
 	var emoji = document.getElementById('icon_to_use').value;
