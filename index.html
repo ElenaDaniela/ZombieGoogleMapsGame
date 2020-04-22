@@ -1,0 +1,122 @@
+
+<script async defer
+   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUdd4sW84EBW9sM_JMBw8JIRhzGm87b9I&callback=initMap">
+</script>
+
+<html>
+  <head>
+	<style>
+	#zombie_map {
+    height: 100%;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    background-color: black;
+	}
+	</style>
+
+    <title>My page title</title>
+  </head>
+  
+  <body>
+	My zombie map
+	<div id="zombie_map"></div>
+	<form>
+		Select an emoji
+		<select id="icon_to_use">
+		<option value="zombie.png">Zombie</option>
+		<option value="hospital.png">Hospital</option>
+		<option value="battle.png">Weapons</option>
+		</select>
+	</form>
+	
+	<script>
+    var zombie_map;
+	var data = `45.23670654662454 24.339402827861765 battle.png
+	45.235638663335536 24.340009419645927 hospital.png
+	 45.236720784693034 24.342860402210196 zombie.png
+	 45.2383439306277 24.339605024904873 zombie.png
+	 45.236720784693034 24.337178657440806 zombie.png
+	 45.235624424995905 24.342759303361223 hospital.png
+	 45.23845783363806 24.342435786782577 zombie.png
+	 45.23509759515983 24.337744810143764 hospital.png
+	 45.234300220297825 24.342739083329494 hospital.png
+	 45.233659464862725 24.340191397312143 battle.png
+	 45.23803069571082 24.337279756289778 zombie.png
+	 45.237632030717734 24.341626997955306 zombie.png
+	 45.2363221114319 24.34134392274979 hospital.png
+	 45.23448532597605 24.33818964396602 zombie.png
+	 45.1780808 24.260591 battle.png
+	 45.237632030717734 24.339180410786927 zombie.png
+	 45.1770828 24.260505 hospital.png
+	 45.1774228 24.261106 zombie.png
+	 45.1768026 24.2621462 battle.png
+	 45.1770598 24.260376 hospital.png`;
+	var plr = 'player.png';
+	var markers = data.split("\n");
+	var all_markers = [];
+    function initMap() {
+
+            zombie_map = new google.maps.Map(document.getElementById('zombie_map'), {
+            zoom: 16,
+            
+            center: {lat: 45.177241599999995, lng:  24.2614272}
+			});
+			if(navigator.geolocation) {
+				navigator.geolocation.watchPosition(set_my_position);
+			}
+			else {
+				alert("Geolocation doesn't work in your browser");
+			}
+			//var marker = new google.maps.Marker({
+			//position: {lat: 52.206727, lng: 0.124450 },
+			//map: zombie_map
+			//});
+			/*zombie_map.addListener('click', function(e) {
+			var location = e.latLng;
+			place_marker(location);
+			});*/
+			for(var i=0; i < markers.length; i++){
+				var marker_data = markers[i].trim();
+				marker_data = marker_data.split(" ");
+				
+				
+				var latitude = marker_data[0];
+				var longitude = marker_data[1];
+				var emoji = marker_data[2];
+			
+				
+				var marker_position = new google.maps.LatLng(latitude, longitude);
+				
+				var marker = new google.maps.Marker({
+				position: marker_position,
+				map: zombie_map, 
+				icon:emoji
+				});
+				
+				all_markers.push(marker);
+			}
+    }
+	function set_my_position(position){
+		var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+		var player = new google.maps.Marker({
+				position: pos,
+				map: zombie_map, 
+				icon: plr
+				});
+				console.log(position.coords.latitude + " " + position.coords.longitude)
+	}
+	/*function place_marker(location){
+	var emoji = document.getElementById('icon_to_use').value;
+    var marker = new google.maps.Marker({
+      position: location,
+      map: zombie_map, icon:emoji
+    });
+	console.log(location.lat() + " " + location.lng() + " " + emoji);
+	}*/
+</script>
+
+    Items I want to appear on my page will go here
+  </body>
+</html>
